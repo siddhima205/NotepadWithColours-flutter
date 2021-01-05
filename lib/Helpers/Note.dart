@@ -8,9 +8,9 @@ class Note {
   DateTime date_created;
   DateTime date_last_edited;
   Color note_color;
-  
+  Color content_color;
   int is_archived = 0;
-  Note(this.id, this.title, this.content, this.date_created, this.date_last_edited,this.note_color);
+  Note(this.id, this.title, this.content, this.date_created, this.date_last_edited,this.note_color,this.content_color);
 
    Map<String, dynamic> toMap(bool forUpdate) {
     var data = {
@@ -20,7 +20,7 @@ class Note {
       'date_created': epochFromDate( date_created ),
       'date_last_edited': epochFromDate( date_last_edited ),
       'note_color': note_color.value,
-      
+      'content_color':content_color.value,
       'is_archived': is_archived  //  for later use for integrating archiving
     };
     if(forUpdate){
@@ -43,6 +43,7 @@ void archiveThisNote() {
     'date_created': epochFromDate( date_created ),
     'date_last_edited': epochFromDate( date_last_edited ),
     'note_color': note_color.toString(),
+    'content_color':content_color.toString(),
     'is_archived':is_archived
   }.toString();
 }

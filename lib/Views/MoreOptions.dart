@@ -15,7 +15,7 @@ class MoreOptionsSheet extends StatefulWidget {
 
   const MoreOptionsSheet(
       {Key key,
-      this.color,
+      this.color,      
       this.date_last_edited,
       this.callBackColorTapped,
       this.callBackOptionTapped})

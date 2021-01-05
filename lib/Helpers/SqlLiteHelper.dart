@@ -17,6 +17,7 @@ class NotesDBHandler {
     "date_created": "INTEGER",
     "date_last_edited": "INTEGER",
     "note_color": "INTEGER",
+    "content_color":"INTEGER",
     "is_archived": "INTEGER"
   };
 

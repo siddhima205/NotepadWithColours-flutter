@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:notepad/Views/ContentColorSheet.dart';
 import 'package:share/share.dart';
 import 'package:flutter/material.dart';
 import 'package:notepad/Helpers/Note.dart';
@@ -18,7 +19,7 @@ class _NotePageState extends State<NotePage> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   var note_color;
-  Color contentColor = Colors.red;
+  Color content_Color = Colors.red;
   bool _isNewNote = false;
   final _titleFocus = FocusNode();
   final _contentFocus = FocusNode();
@@ -41,6 +42,7 @@ class _NotePageState extends State<NotePage> {
     _editableNote = widget.noteInEditing;
     _titleController.text = _editableNote.title;
     _contentController.text = _editableNote.content;
+   content_Color = _editableNote.content_color;
     note_color = _editableNote.note_color;
     _lastEditedForUndo = widget.noteInEditing.date_last_edited;
 
@@ -124,7 +126,7 @@ class _NotePageState extends State<NotePage> {
             maxLines: 300, // line limit extendable later
             controller: _contentController,
             focusNode: _contentFocus,
-            style: TextStyle(color: contentColor, fontSize: 20),
+            style: TextStyle(color: content_Color, fontSize: 20),
             backgroundCursorColor: Colors.red,
             cursorColor: Colors.blue,
           )
@@ -193,6 +195,18 @@ class _NotePageState extends State<NotePage> {
         padding: EdgeInsets.symmetric(horizontal: 12),
         child: InkWell(
           child: GestureDetector(
+            onTap: () => contentColorSheet(context),
+            child: Icon(
+              Icons.text_fields,
+              color: CentralStation.fontColor,
+            ),
+          ),
+        ),
+      ),
+      Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        child: InkWell(
+          child: GestureDetector(
             onTap: () => { _saveAndStartNewNote(context)  },
             child: Icon(
               Icons.add,
@@ -214,6 +228,18 @@ class _NotePageState extends State<NotePage> {
             callBackColorTapped: _changeColor,
             callBackOptionTapped: bottomSheetOptionTappedHandler,
             date_last_edited: _editableNote.date_last_edited,
+          );
+        });
+  }
+
+  void contentColorSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext ctx) {
+          return ContentColorSheet(        
+            contentcolor: content_Color,    
+            callBackContentColorTapped: _changeContentColor,
+           
           );
         });
   }
@@ -322,7 +348,6 @@ class _NotePageState extends State<NotePage> {
     print("note color changed");
     setState(() {
       note_color = newColorSelected;
-     
       _editableNote.note_color = newColorSelected;
     });
     _persistColorChange();
@@ -334,13 +359,24 @@ class _NotePageState extends State<NotePage> {
       var noteDB = NotesDBHandler();
       _editableNote.note_color = note_color;
     
+      _editableNote.content_color = content_Color;
       noteDB.insertNote(_editableNote, false);
     }
+ 
+  }
+  void _changeContentColor(Color newColorSelected) {
+    print("content color changed");
+    setState(() {
+      content_Color = newColorSelected;
+      _editableNote.content_color = newColorSelected;
+    });
+    _persistColorChange();
+    CentralStation.updateNeeded = true;
   }
 
   void _saveAndStartNewNote(BuildContext context){
     _persistenceTimer.cancel();
-    var emptyNote = new Note(-1, "", "", DateTime.now(), DateTime.now(), Colors.white);
+    var emptyNote = new Note(-1, "", "", DateTime.now(), DateTime.now(), Colors.white,Colors.black);
     Navigator.of(context).pop();
     Navigator.push(context, MaterialPageRoute(builder: (ctx) => NotePage(emptyNote)));
 
@@ -405,7 +441,8 @@ class _NotePageState extends State<NotePage> {
         _editableNote.content,
         DateTime.now(),
         DateTime.now(),
-        _editableNote.note_color) ;
+        _editableNote.note_color,
+        _editableNote.content_color) ;
 
 
     var status = noteDB.copyNote(copy);
