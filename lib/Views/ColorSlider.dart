@@ -23,7 +23,14 @@ class _ColorSliderState extends State<ColorSlider> {
     Color(0xffd7aefc), // plum
     Color(0xfffbcfe9), // misty rose
     Color(0xffe6c9a9), // light brown
-    Color(0xffe9eaee)  // light gray
+    Color(0xffe9eaee),  // light gray
+    Colors.indigo,
+    Colors.deepPurpleAccent,
+    Colors.green,
+    Colors.blue,
+    Colors.brown,
+    Colors.blueGrey
+    
   ];
 
    final Color borderColor = Color(0xffd3d3d3);

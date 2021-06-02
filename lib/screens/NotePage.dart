@@ -34,6 +34,7 @@ class _NotePageState extends State<NotePage> {
 
   // the timer variable responsible to call persistData function every 5 seconds and cancel the timer when the page pops.
   Timer _persistenceTimer;
+  TextSelectionControls _textSelectionControls;
 
   final GlobalKey<ScaffoldState> _globalKey = new GlobalKey<ScaffoldState>();
 
@@ -121,13 +122,16 @@ class _NotePageState extends State<NotePage> {
           Flexible( child: Container(
     padding: EdgeInsets.all(5),
 //    decoration: BoxDecoration(border: Border.all(color: CentralStation.borderColor,width: 1),borderRadius: BorderRadius.all(Radius.circular(10)) ),
-              child: EditableText(
+              child: TextField(
+                
+             enableInteractiveSelection: true,
+             selectionControls: ,
             onChanged: (str) => {updateNoteObject()},
             maxLines: 300, // line limit extendable later
             controller: _contentController,
             focusNode: _contentFocus,
             style: TextStyle(color: content_Color, fontSize: 20),
-            backgroundCursorColor: Colors.red,
+            //backgroundCursorColor: Colors.red,
             cursorColor: Colors.blue,
           )
           )
