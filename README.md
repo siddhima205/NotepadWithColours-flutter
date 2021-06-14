@@ -1,10 +1,12 @@
 # notepad
 
-A new Flutter project.
+A Flutter project for notepad .
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a notepad app built in flutter.
+
+Tested on android 
 
 A few resources to get you started if this is your first Flutter project:
 
